@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+*.egg-info/
+dist/
+.coverage
+htmlcov/
+
+# UV
+.python-version
+
+# Model weights (large files — use DVC or manual download)
+ai_pipeline/models/weights/*
+ai_pipeline/models/onnx/*
+!ai_pipeline/models/weights/.gitkeep
+!ai_pipeline/models/onnx/.gitkeep
+!ai_pipeline/models/quantized/.gitkeep
+
+# DO commit these (final quantized models for device)
+!ai_pipeline/models/quantized/*.onnx
+
+# Environment
+.env
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
