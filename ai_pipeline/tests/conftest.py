@@ -1,18 +1,15 @@
-import sys
-from pathlib import Path
-
+# ai_pipeline/tests/conftest.py
 import pytest
-
-_SRC = Path(__file__).resolve().parents[1] / "src"
-_CONFIGS = Path(__file__).resolve().parents[1] / "configs"
-
-for path in (_SRC, _CONFIGS):
-    if str(path) not in sys.path:
-        sys.path.insert(0, str(path))
-
+import numpy as np
 
 @pytest.fixture
-def sample_rgb_array():
-    import numpy as np
+def dummy_frame():
+    """480x640 BGR frame with a white square simulating a face region."""
+    frame = np.zeros((480, 640, 3), dtype=np.uint8)
+    frame[100:300, 200:440] = 255
+    return frame
 
-    return np.zeros((112, 112, 3), dtype=np.uint8)
+@pytest.fixture
+def dummy_embedding():
+    emb = np.random.rand(512).astype(np.float32)
+    return emb / np.linalg.norm(emb)

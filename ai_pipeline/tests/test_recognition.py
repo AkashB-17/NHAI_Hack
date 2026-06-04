@@ -1,17 +1,15 @@
+# ai_pipeline/tests/test_recognition.py
 import numpy as np
-import pytest
+from ai_pipeline.src.recognition.arcface_embedder import ArcFaceEmbedder
 
-from recognition.arcface_embedder import ArcFaceEmbedder
-from recognition.embedding_store import EmbeddingStore
+def test_cosine_same_embedding():
+    emb = np.random.rand(512).astype(np.float32)
+    emb /= np.linalg.norm(emb)
+    score = ArcFaceEmbedder.cosine_similarity(emb, emb)
+    assert abs(score - 1.0) < 1e-5
 
-
-def test_arcface_embed_not_implemented(sample_rgb_array):
-    embedder = ArcFaceEmbedder()
-    with pytest.raises(NotImplementedError):
-        embedder.embed(sample_rgb_array)
-
-
-def test_embedding_store_not_implemented(tmp_path):
-    store = EmbeddingStore(tmp_path / "embeddings.db")
-    with pytest.raises(NotImplementedError):
-        store.save("user-1", np.zeros(512, dtype=np.float32))
+def test_cosine_orthogonal():
+    e1 = np.zeros(512, dtype=np.float32); e1[0] = 1.0
+    e2 = np.zeros(512, dtype=np.float32); e2[1] = 1.0
+    score = ArcFaceEmbedder.cosine_similarity(e1, e2)
+    assert abs(score) < 1e-5

@@ -1,17 +1,14 @@
+# ai_pipeline/tests/test_liveness.py
 import numpy as np
-import pytest
+from ai_pipeline.src.liveness.active_liveness import eye_aspect_ratio, head_yaw_degrees
 
-from liveness.active_liveness import ActiveLiveness
-from liveness.passive_liveness import PassiveLiveness
+def test_ear_closed_eye():
+    # Flat eye — all points on same horizontal line
+    pts = np.array([[0,0],[1,0],[2,0],[3,0],[2,0],[1,0]], dtype=np.float32)
+    assert eye_aspect_ratio(pts) < 0.1
 
-
-def test_passive_liveness_not_implemented(sample_rgb_array):
-    checker = PassiveLiveness()
-    with pytest.raises(NotImplementedError):
-        checker.score(sample_rgb_array)
-
-
-def test_active_liveness_not_implemented(sample_rgb_array):
-    checker = ActiveLiveness()
-    with pytest.raises(NotImplementedError):
-        checker.verify_challenge([sample_rgb_array], "blink")
+def test_head_yaw_frontal():
+    # Symmetric landmarks → near-zero yaw
+    lm = np.array([[30,50],[70,50],[50,70],[35,90],[65,90]], dtype=np.float32)
+    yaw = head_yaw_degrees(lm)
+    assert abs(yaw) < 10
