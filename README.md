@@ -1,24 +1,7 @@
 # NHAI Face Auth — AI Pipeline
 
-Offline facial recognition and liveness detection (ONNX Route 2).
+Offline facial recognition and liveness detection .
 
-## Layout
-
-```
-ai_pipeline/
-├── configs/          # Pydantic settings
-├── models/
-│   ├── weights/      # .pth (gitignored — download via script)
-│   ├── onnx/         # exported ONNX (gitignored)
-│   └── quantized/    # INT8 ONNX for device (committed)
-├── src/              # detection, recognition, liveness, utils
-├── scripts/          # download → export → prune → quantize → validate
-├── tests/
-├── notebooks/
-└── benchmarks/
-```
-
-## Setup
 
 ```bash
 uv sync --all-extras
